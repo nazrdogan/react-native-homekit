@@ -1,7 +1,8 @@
 import { NativeModules } from 'react-native';
 
 type HomekitType = {
-  multiply(a: number, b: number): Promise<number>;
+  addHome(homeName: string): Promise<string>;
+  removeHome(homeName: string): Promise<string>;
 };
 
 const { Homekit } = NativeModules;

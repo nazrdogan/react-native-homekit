@@ -1,17 +1,30 @@
 import * as React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import Homekit from 'react-native-homekit';
+import { StyleSheet, View, Button } from 'react-native';
+import HomeKit from 'react-native-homekit';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    Homekit.multiply(3, 7).then(setResult);
-  }, []);
-
+  const addHome = () => {
+    HomeKit.addHome("Nazir's Home").then((result) => {
+      console.log(result)
+    });
+  }
+   const removeHome = () => {
+    HomeKit.removeHome("Nazir's Home").then((result) => {
+      console.log(result)
+    });
+  }
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Button
+        onPress={addHome}
+        title="Add Home"
+        color="blue"
+      />
+      <Button
+        onPress={removeHome}
+        title=" Remove Home"
+        color="#841584"
+      />
     </View>
   );
 }
