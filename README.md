@@ -1,6 +1,6 @@
-# react-native-homekit
+# react-native-homekit (WIP)
 
-homekit
+https://developer.apple.com/documentation/homekit?language=objc
 
 ## Installation
 
@@ -15,7 +15,9 @@ import Homekit from "react-native-homekit";
 
 // ...
 
-const result = await Homekit.multiply(3, 7);
+const result = await Homekit.addHome("Nazir's Home");
+
+const result = await Homekit.removeHome("Nazir's Home");
 ```
 
 ## Contributing
