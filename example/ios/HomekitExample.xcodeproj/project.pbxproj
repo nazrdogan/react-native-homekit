@@ -278,6 +278,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 8JL6T3DV5M;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = HomekitExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = (
@@ -307,6 +308,7 @@
 				CODE_SIGN_ENTITLEMENTS = HomekitExample/HomekitExample.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8JL6T3DV5M;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = HomekitExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = (

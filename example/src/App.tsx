@@ -8,8 +8,13 @@ export default function App() {
       console.log(result)
     });
   }
-   const removeHome = () => {
+  const removeHome = () => {
     HomeKit.removeHome("Nazir's Home").then((result) => {
+      console.log(result)
+    });
+  }
+  const renameHome = () => {
+    HomeKit.renameHome("Berkay's Home", "Nazir's Home").then((result) => {
       console.log(result)
     });
   }
@@ -24,6 +29,11 @@ export default function App() {
         onPress={removeHome}
         title=" Remove Home"
         color="#841584"
+      />
+      <Button
+        onPress={renameHome}
+        title="Rename Home"
+        color="green"
       />
     </View>
   );
