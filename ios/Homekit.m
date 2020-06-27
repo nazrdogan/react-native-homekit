@@ -27,5 +27,13 @@ RCT_EXTERN_METHOD(removeRoomFromHome:(NSString *)name fromHome:(NSString *)fromH
 
 RCT_EXTERN_METHOD(renameRoom:(NSString *)oldName inHome:(NSString *)inHome  withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(addAccessoryToHome:(NSString *)accessoryName toHome:(NSString *)toHome  withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(removeAccessoryFromHome:(NSString *)accessoryName fromHome:(NSString *)fromHome  withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(assignAccessoryToRoom:(NSString *)accessoryName roomName:(NSString *)roomName homeName:(NSString *)homeName  withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(renameAccessory:(NSString *)oldName newName:(NSString *)newName withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+
 
 @end
