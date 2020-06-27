@@ -17,4 +17,15 @@ RCT_EXTERN_METHOD(removeZone:(NSString *)name fromHome:(NSString *)fromHome with
 RCT_EXTERN_METHOD(renameZone:(NSString *)oldName oldName:(NSString *)oldName inHome:(NSString *)inHome withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 
 
+RCT_EXTERN_METHOD(addRoomToHome:(NSString *)name toHome:(NSString *)toHome withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(addRoomToZone:(NSString *)name toZone:(NSString *)toZone inHome:(NSString *)inHome withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(removeRoomFromZone:(NSString *)name fromZone:(NSString *)fromZone inHome:(NSString *)inHome withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(removeRoomFromHome:(NSString *)name fromHome:(NSString *)fromHome  withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+
+RCT_EXTERN_METHOD(renameRoom:(NSString *)oldName inHome:(NSString *)inHome  withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
+
+
 @end
