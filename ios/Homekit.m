@@ -1,7 +1,10 @@
 #import <React/RCTBridgeModule.h>
 #import <HomeKit/HomeKit.h>
+#import "React/RCTEventEmitter.h"
 
-@interface RCT_EXTERN_MODULE(Homekit, NSObject)
+
+
+@interface RCT_EXTERN_MODULE(Homekit, RCTEventEmitter)
 
 
 RCT_EXTERN_METHOD(addHome:(NSString *)name withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)

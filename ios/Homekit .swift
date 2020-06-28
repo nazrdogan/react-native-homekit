@@ -1,7 +1,7 @@
 import  HomeKit
 
 @objc(Homekit)
-class Homekit: NSObject , HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
+class Homekit: RCTEventEmitter , HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
     var homeManager = HMHomeManager()
     let accessoryBrowser = HMAccessoryBrowser()
     var discoveredAccessories: [HMAccessory] = []
@@ -12,8 +12,11 @@ class Homekit: NSObject , HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
         self.homeManager.delegate = self
     }
     
-    @objc static func requiresMainQueueSetup() -> Bool {
-        return false
+    @objc  override static func requiresMainQueueSetup() -> Bool {
+        return true
+    }
+    override func supportedEvents() -> [String]! {
+      return ["didFindNewAccessory"]
     }
     @objc(addHome:withResolver:withRejecter:)
     func addHome(name: String, resolve: @escaping(RCTPromiseResolveBlock), reject: @escaping(RCTPromiseRejectBlock)) -> Void {
@@ -319,9 +322,8 @@ class Homekit: NSObject , HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
     
     // Delegate
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
-        print("HERERERERERERER")
-       discoveredAccessories.append(accessory)
+        self.sendEvent(withName: "didFindNewAccessory", body: "Body" )
+        discoveredAccessories.append(accessory)
     }
 
 }
-

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View, Button, NativeEventEmitter, NativeModules } from 'react-native';
 import HomeKit from 'react-native-homekit';
 
 export default function App() {
@@ -7,6 +7,15 @@ export default function App() {
     HomeKit.addHome("Nazir's Home").then((result) => {
       console.log(result)
     });
+  }
+  const startSearchingForNewAccessories = () => {
+    HomeKit.startSearchingForNewAccessories()
+    const myModuleEvt = new NativeEventEmitter(NativeModules.Homekit)
+    var subscription = myModuleEvt.addListener('didFindNewAccessory', (accessory) => {
+      console.log(accessory)
+    }
+    );
+    subscription.remove();
   }
   const removeHome = () => {
     HomeKit.removeHome("Nazir's Home").then((result) => {
@@ -34,6 +43,11 @@ export default function App() {
         onPress={renameHome}
         title="Rename Home"
         color="green"
+      />
+      <Button
+        onPress={startSearchingForNewAccessories}
+        title="Start Searching For New Accessories"
+        color="orange"
       />
     </View>
   );
