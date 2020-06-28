@@ -270,7 +270,7 @@ class Homekit: NSObject , HMHomeManagerDelegate {
     private static func transformZones(nzones: [HMZone]) -> [Any] {
         var zones: [Any] = []
         for zone in nzones {
-            zones.append(zone)
+            zones.append(transformZone(zone: zone))
         }
         return zones;
     }
