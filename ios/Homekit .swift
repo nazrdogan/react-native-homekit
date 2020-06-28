@@ -19,8 +19,7 @@ class Homekit: NSObject , HMHomeManagerDelegate {
             if error != nil {
                 reject("error", error?.localizedDescription, error);
             } else {
-                resolve(name)
-                
+                resolve(Homekit.transformHome(home: newHome!))
             }
         }
     }
@@ -35,7 +34,7 @@ class Homekit: NSObject , HMHomeManagerDelegate {
             if let error = error {
                 reject("error", error.localizedDescription, error);
             } else {
-                resolve(name)
+                resolve(Homekit.transformHome(home: home))
             }
         }
     }
@@ -49,7 +48,7 @@ class Homekit: NSObject , HMHomeManagerDelegate {
             if let error = error {
                 reject("error", error.localizedDescription, error);
             } else {
-                resolve(newName)
+                resolve(Homekit.transformHome(home: home))
             }
         }
     }
@@ -60,8 +59,8 @@ class Homekit: NSObject , HMHomeManagerDelegate {
             reject("error","Home cannot found", nil);
             return
         }
-        home.addZone(withName: name) { [weak self] zone, error in
-            if let zone = zone {
+        home.addZone(withName: name) { zone, error in
+            if zone != nil {
                 resolve(name)
             }
             if let error = error {
@@ -170,16 +169,16 @@ class Homekit: NSObject , HMHomeManagerDelegate {
     @objc(renameAccessory:newName:withResolver:withRejecter:)
     func renameAccessory(oldName: String, newName: String ,resolve: @escaping(RCTPromiseResolveBlock), reject: @escaping(RCTPromiseRejectBlock)) -> Void{
         guard let accessory = self.findAccessory(name: oldName) else {
-                   reject("error","Home cannot found", nil);
-                   return
+            reject("error","Home cannot found", nil);
+            return
+        }
+        accessory.updateName(newName) { (error) in
+            if let error = error {
+                reject("error", error.localizedDescription, error);
+            } else {
+                resolve(accessory)
             }
-      accessory.updateName(newName) { (error) in
-          if let error = error {
-              reject("error", error.localizedDescription, error);
-          } else {
-              resolve(accessory)
-          }
-      }
+        }
     }
     
     //Helper functions
@@ -226,6 +225,89 @@ class Homekit: NSObject , HMHomeManagerDelegate {
         }
         return nil
     }
+    private  static func transformHome(home: HMHome) -> [String : Any?] {
+        return [
+            "name" : home.name,
+            "isPrimary": home.isPrimary,
+            "rooms": Homekit.transformRooms(nrooms: home.rooms),
+            "accessories": transformAccessories(naccessories: home.accessories),
+            "zones": transformZones(nzones: home.zones),
+        ];
+    }
+    
+    private static func transformRooms(nrooms: [HMRoom]) -> [Any] {
+        var rooms: [Any] = []
+        for room in nrooms {
+            rooms.append(transformRoom(room: room, skipAccessories:true))
+        }
+        return rooms;
+    }
+    
+    
+    private static func transformRoom(room: HMRoom, skipAccessories: Bool?) ->  [String : Any?] {
+        return  [
+            "name" : room.name,
+            "accessories": skipAccessories! ? nil : transformAccessories(naccessories: room.accessories)
+        ];
+    }
+    
+    private static func transformAccessories(naccessories: [HMAccessory]) -> [Any] {
+        var accessories: [Any] = []
+        for accessory in naccessories {
+            accessories.append(transformAccessory(acc: accessory))
+        }
+        return accessories;
+    }
+    
+    private static func transformAccessory(acc: HMAccessory) ->  [String : Any?] {
+      return [
+        "name": acc.name,
+        "bridged": acc.isBridged,
+        "services": transformServices(nservices: acc.services),
+      ]
+    }
+    
+    private static func transformZones(nzones: [HMZone]) -> [Any] {
+        var zones: [Any] = []
+        for zone in nzones {
+            zones.append(zone)
+        }
+        return zones;
+    }
+    private static func transformZone(zone: HMZone) -> [String : Any] {
+      return [
+        "name": zone.name,
+        "rooms": transformRooms(nrooms: zone.rooms),
+      ]
+    }
+    
+    private static func transformServices(nservices: [HMService]) -> [Any] {
+        var services: [Any] = []
+        for service in nservices {
+            services.append(transformService(service: service))
+        }
+        return services;
+    }
+    private static func transformService(service: HMService) -> [String : Any] {
+      return [
+        "name": service.name,
+      ]
+    }
+    
+    private static func transformCharacteristics(ncharacteristics: [HMCharacteristic]) -> [Any] {
+        var characteristics: [Any] = []
+        for characteristic in ncharacteristics {
+            characteristics.append(transformCharacteristic(characteristic:characteristic))
+        }
+        return characteristics;
+    }
+    private static func transformCharacteristic(characteristic: HMCharacteristic) -> [String : Any] {
+      return [
+        "type": characteristic.characteristicType,
+        "description": characteristic.localizedDescription,
+      ]
+    }
+
 }
 
 
