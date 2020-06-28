@@ -35,5 +35,8 @@ RCT_EXTERN_METHOD(assignAccessoryToRoom:(NSString *)accessoryName roomName:(NSSt
 
 RCT_EXTERN_METHOD(renameAccessory:(NSString *)oldName newName:(NSString *)newName withResolver:(RCTPromiseResolveBlock)resolve withRejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(startSearchingForNewAccessories)
+RCT_EXTERN_METHOD(stopSearchingForNewAccessories)
+
 
 @end

@@ -1,12 +1,14 @@
 import  HomeKit
 
 @objc(Homekit)
-class Homekit: NSObject , HMHomeManagerDelegate {
+class Homekit: NSObject , HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
     var homeManager = HMHomeManager()
-    let accessoryBrowser = HMAccessoryBrowser();
+    let accessoryBrowser = HMAccessoryBrowser()
+    var discoveredAccessories: [HMAccessory] = []
     override init() {
         self.homeManager = HMHomeManager()
         super.init()
+        self.accessoryBrowser.delegate = self
         self.homeManager.delegate = self
     }
     
@@ -180,7 +182,14 @@ class Homekit: NSObject , HMHomeManagerDelegate {
             }
         }
     }
-    
+    @objc(startSearchingForNewAccessories)
+    func startSearchingForNewAccessories () -> Void {
+        self.accessoryBrowser.startSearchingForNewAccessories()
+    }
+    @objc(stopSearchingForNewAccessories)
+    func stopSearchingForNewAccessories () -> Void {
+        self.accessoryBrowser.stopSearchingForNewAccessories()
+    }
     //Helper functions
     private func findHome(name: String) -> HMHome? {
         for home in homeManager.homes {
@@ -260,11 +269,11 @@ class Homekit: NSObject , HMHomeManagerDelegate {
     }
     
     private static func transformAccessory(acc: HMAccessory) ->  [String : Any?] {
-      return [
-        "name": acc.name,
-        "bridged": acc.isBridged,
-        "services": transformServices(nservices: acc.services),
-      ]
+        return [
+            "name": acc.name,
+            "bridged": acc.isBridged,
+            "services": transformServices(nservices: acc.services),
+        ]
     }
     
     private static func transformZones(nzones: [HMZone]) -> [Any] {
@@ -275,10 +284,10 @@ class Homekit: NSObject , HMHomeManagerDelegate {
         return zones;
     }
     private static func transformZone(zone: HMZone) -> [String : Any] {
-      return [
-        "name": zone.name,
-        "rooms": transformRooms(nrooms: zone.rooms),
-      ]
+        return [
+            "name": zone.name,
+            "rooms": transformRooms(nrooms: zone.rooms),
+        ]
     }
     
     private static func transformServices(nservices: [HMService]) -> [Any] {
@@ -289,9 +298,9 @@ class Homekit: NSObject , HMHomeManagerDelegate {
         return services;
     }
     private static func transformService(service: HMService) -> [String : Any] {
-      return [
-        "name": service.name,
-      ]
+        return [
+            "name": service.name,
+        ]
     }
     
     private static func transformCharacteristics(ncharacteristics: [HMCharacteristic]) -> [Any] {
@@ -302,12 +311,17 @@ class Homekit: NSObject , HMHomeManagerDelegate {
         return characteristics;
     }
     private static func transformCharacteristic(characteristic: HMCharacteristic) -> [String : Any] {
-      return [
-        "type": characteristic.characteristicType,
-        "description": characteristic.localizedDescription,
-      ]
+        return [
+            "type": characteristic.characteristicType,
+            "description": characteristic.localizedDescription,
+        ]
+    }
+    
+    // Delegate
+    func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
+        print("HERERERERERERER")
+       discoveredAccessories.append(accessory)
     }
 
 }
-
 

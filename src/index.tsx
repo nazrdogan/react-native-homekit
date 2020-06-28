@@ -56,6 +56,8 @@ type HomekitType = {
   removeAccessoryFromHome(accessoryName: string, fromHome: string): Promise<Home>;
   assignAccessoryToRoom(accessoryName: string, roomName: string, homeName: string): Promise<Array<Room>>;
   renameAccessory(oldName: string, newName: string): Promise<Accessory>;
+  startSearchingForNewAccessories():void;
+  stopSearchingForNewAccessories():void;
 };
 
 const { Homekit } = NativeModules;
