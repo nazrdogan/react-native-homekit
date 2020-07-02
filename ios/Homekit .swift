@@ -16,7 +16,7 @@ class Homekit: RCTEventEmitter , HMHomeManagerDelegate, HMAccessoryBrowserDelega
         return true
     }
     override func supportedEvents() -> [String]! {
-      return ["didFindNewAccessory"]
+      return ["findNewAccessory","removeNewAccessory"]
     }
     @objc(addHome:withResolver:withRejecter:)
     func addHome(name: String, resolve: @escaping(RCTPromiseResolveBlock), reject: @escaping(RCTPromiseRejectBlock)) -> Void {
@@ -322,8 +322,10 @@ class Homekit: RCTEventEmitter , HMHomeManagerDelegate, HMAccessoryBrowserDelega
     
     // Delegate
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
-        self.sendEvent(withName: "didFindNewAccessory", body: "Body" )
-        discoveredAccessories.append(accessory)
+        self.sendEvent(withName: "findNewAccessory", body:["accessory": Homekit.transformAccessory(acc: accessory)])
+    
     }
-
+    func accessoryBrowser(_ browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory) {
+         self.sendEvent(withName: "removeNewAccessory", body: ["accessory": Homekit.transformAccessory(acc: accessory)] )
+    }
 }

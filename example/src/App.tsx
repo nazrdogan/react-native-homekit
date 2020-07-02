@@ -3,6 +3,11 @@ import { StyleSheet, View, Button, NativeEventEmitter, NativeModules } from 'rea
 import HomeKit from 'react-native-homekit';
 
 export default function App() {
+  const myModuleEvt = new NativeEventEmitter(NativeModules.Homekit)
+  myModuleEvt.addListener("hello", (accessory) => {
+    console.log(accessory)
+  }
+  );
   const addHome = () => {
     HomeKit.addHome("Nazir's Home").then((result) => {
       console.log(result)
@@ -10,12 +15,6 @@ export default function App() {
   }
   const startSearchingForNewAccessories = () => {
     HomeKit.startSearchingForNewAccessories()
-    const myModuleEvt = new NativeEventEmitter(NativeModules.Homekit)
-    var subscription = myModuleEvt.addListener('didFindNewAccessory', (accessory) => {
-      console.log(accessory)
-    }
-    );
-    subscription.remove();
   }
   const removeHome = () => {
     HomeKit.removeHome("Nazir's Home").then((result) => {
