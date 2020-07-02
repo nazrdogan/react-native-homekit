@@ -1,5 +1,8 @@
 # react-native-homekit (WIP)
 
+![alt text](https://imgur.com/JK2qolE "homekit")
+
+
 https://developer.apple.com/documentation/homekit?language=objc
 
 ## Installation
